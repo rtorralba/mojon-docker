@@ -26,7 +26,6 @@ clone-mk1: ## Clone MK1 repository
 	git clone git@github.com:mojontwins/MK1.git
 	mv MK1/src .
 	rm -rf MK1
-	bash comment-empty-includes.sh
 
 run: ## Run container
 	U_ID=${UID} ${DOCKER_COMMAND} up -d
