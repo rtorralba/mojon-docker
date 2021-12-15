@@ -14,13 +14,18 @@ endif
 DOCKER_COMMAND = docker-compose -f .docker/docker-compose.yml
 UTILS_DIR = /src/utils/
 GAME = lala_beta
-WINE = docker run --user ${UID] -v ${PWD}/src:/src -it --platform linux/386 rtorralba/wine-mojon wine
+WINE = docker run --user ${UID} -v ${PWD}/src:/src -it --platform linux/386 rtorralba/wine-mojon wine
 
 help: ## Show this help message
 	@echo 'usage: make [target]'
 	@echo
 	@echo 'targets:'
 	@egrep '^(.+)\:\ ##\ (.+)' ${MAKEFILE_LIST} | column -t -c 2 -s ':#'
+
+clone-mk1: ## Clone MK1 repository
+	git clone git@github.com:mojontwins/MK1.git
+	mv MK1/src .
+	rm -rf MK1
 
 run: ## Run container
 	U_ID=${UID} ${DOCKER_COMMAND} up -d
