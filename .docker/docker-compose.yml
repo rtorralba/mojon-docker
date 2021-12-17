@@ -3,17 +3,12 @@ version: "3.2"
 # Deprecated, not necessary, work with images directly from dockerhub
 services:
   app:
-    build:
-      context: .
-      args:
-        UID: $U_ID
+    image: rtorralba/z88dk-mojon
     volumes:
       - ../src:/src
     command: tail -f /dev/null
   wine:
-    build:
-      context: .
-      dockerfile: wine.Dockerfile
+    image: rtorralba/wine-mojon
     volumes:
       - ../src:/src
     command: tail -f /dev/null
