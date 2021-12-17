@@ -11,9 +11,9 @@ else
 	UID = 1000
 endif
 
-DOCKER_COMMAND = docker-compose -f .docker/docker-compose.yml
 UTILS_DIR = /src/utils/
 GAME = lala_beta
+GFX_DIR = /src/gfx/
 WINE = docker run -v ${PWD}/src:/src -it --platform linux/386 rtorralba/wine-mojon wine
 
 help: ## Show this help message
@@ -27,19 +27,13 @@ clone-mk1: ## Clone MK1 repository
 	mv MK1/src .
 	rm -rf MK1
 
-run: ## Run container
-	U_ID=${UID} ${DOCKER_COMMAND} up -d
-
-stop: ## Stop container
-	U_ID=${UID} ${DOCKER_COMMAND} stop
-
 build: ## Build game
 	$(MAKE) convert-map
 	$(MAKE) convert-enemies
 	$(MAKE) importing-enemies
 	$(MAKE) compile
 	$(MAKE) build-tap
-
+	$(MAKE) clean
 
 bash: ## Execute bash
 	U_ID=${UID} ${DOCKER_COMMAND} exec app /bin/sh
@@ -53,7 +47,6 @@ convert-map: ## Convert map
 convert-enemies: ## Convirting enemies/hotspots
 	${WINE} ${UTILS_DIR}ene2h.exe /src/enems/enems.ene /src/dev/assets/enems.h
 
-GFX_DIR = /src/gfx/
 importing-enemies: ## Importing GFX
 	${WINE} ${UTILS_DIR}ts2bin.exe ${GFX_DIR}font.png ${GFX_DIR}work.png /src/dev/tileset.bin 7
 
@@ -80,6 +73,6 @@ build-tap: # Build TAP
 	cat src/dev/loader.tap src/dev/screen.tap src/dev/main.tap > src/dev/${GAME}.tap
 
 clean:
-	rm src/dev/loader.tap src/dev/screen.tap src/dev/main.tap
-	rm src/gfx/*.src
-	rm src/*.bin
+	rm -f src/dev/loader.tap src/dev/screen.tap src/dev/main.tap
+	rm -f src/*.bin
+	rm -f src/gfx/*.scr
