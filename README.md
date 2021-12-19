@@ -34,6 +34,10 @@ GAME_SCREENS_WIDTH = 5 # If change that you shoul modify config.h too
 
 A parte, como suponga ya sabes deberás seguir algún tutorial pasar saber que debes tocar para ir realizando tu juego, os recomiendo el tutorial de los (Mojon Twins)[https://github.com/mojontwins/MK1/tree/master/docs]
 
+### Utilidades
+
+He añadido también algunas utilidades como el editor de mapas Mappy y el ponedor para poner los enemigos en su sitio. Lo encontraréis en la carpeta utils, si usáis windows es simplemente ejecutarlos, con linux lo podéis arrancar con wine sin problema 
+
 ### Agradecimientos
 
 Gracias a los (Mojon Twins)[https://www.mojontwins.com/] por haber creado este increible (motor)[https://github.com/mojontwins/MK1] y a GreenWebSevilla por la ayuda en el canal de Telegram.
