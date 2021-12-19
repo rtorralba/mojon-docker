@@ -31,6 +31,15 @@ clone-mk1: ## Clone MK1 repository
 	mv MK1/src .
 	rm -rf MK1
 
+
+clean-mojon-docker-git: # Clean original repository
+	rm -rf .git
+	rm -rf .gitignore
+
+init:  ## Clone MK1 repository and Clean original repository
+	$(MAKE) clone-mk1
+	$(MAKE) clean-mojon-docker-git
+
 build: ## Build game
 	$(MAKE) convert-map
 	$(MAKE) convert-enemies
@@ -86,7 +95,3 @@ refresh-map:
 	$(MAKE) convert-enemies
 	$(MAKE) compile
 	$(MAKE) build-tap
-
-clean-mojon-docker-git: # Clean original repository
-	rm -rf .git
-	rm -rf .gitignore
