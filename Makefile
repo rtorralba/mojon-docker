@@ -13,8 +13,8 @@ endif
 
 # Modify game settings
 GAME = lala_beta
-GAME_SCREENS_HEIGHT = 6 # If change that you shoul modify config.h too
-GAME_SCREENS_WIDTH = 5 # If change that you shoul modify config.h too
+GAME_SCREENS_WIDTH = 6 # If change that you shoul modify config.h too
+GAME_SCREENS_HEIGHT = 5 # If change that you shoul modify config.h too
 
 UTILS_DIR = /src/utils/
 GFX_DIR = /src/gfx/
