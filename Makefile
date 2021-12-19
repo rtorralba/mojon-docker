@@ -11,8 +11,12 @@ else
 	UID = 1000
 endif
 
-UTILS_DIR = /src/utils/
+# Modify game settings
 GAME = lala_beta
+GAME_SCREENS_HEIGHT = 6 # If change that you shoul modify config.h too
+GAME_SCREENS_WIDTH = 5 # If change that you shoul modify config.h too
+
+UTILS_DIR = /src/utils/
 GFX_DIR = /src/gfx/
 WINE = docker run -v ${PWD}/src:/src -it --platform linux/386 rtorralba/wine-mojon wine
 
@@ -42,7 +46,7 @@ fix-utils-perms: ## Fix utils perms
 	chmod -R 764 src/utils/
 
 convert-map: ## Convert map
-	${WINE} ${UTILS_DIR}mapcnv.exe /src/map/mapa.map /src/dev/assets/mapa.h 6 5 15 10 15 packed
+	${WINE} ${UTILS_DIR}mapcnv.exe /src/map/mapa.map /src/dev/assets/mapa.h ${GAME_SCREENS_WIDTH} ${GAME_SCREENS_HEIGHT} 15 10 15 packed
 
 convert-enemies: ## Convirting enemies/hotspots
 	${WINE} ${UTILS_DIR}ene2h.exe /src/enems/enems.ene /src/dev/assets/enems.h
@@ -76,3 +80,13 @@ clean:
 	rm -f src/dev/loader.tap src/dev/screen.tap src/dev/main.tap
 	rm -f src/*.bin
 	rm -f src/gfx/*.scr
+
+refresh-map:
+	$(MAKE) convert-map
+	$(MAKE) convert-enemies
+	$(MAKE) compile
+	$(MAKE) build-tap
+
+clean-mojon-docker-git: # Clean original repository
+	rm -rf .git
+	rm -rf .gitignore
