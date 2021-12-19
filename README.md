@@ -17,8 +17,7 @@ Además de docker, he utilizado Make para automatizar con comandos las operacion
 ``` bash
 git clone git@github.com:rtorralba/mojon-docker.git nombre_de_tu_juego
 cd nombre_de_tu_juego
-make clone-mk1 # Esto te creará una carpeta src con el juego ejemplo del repositorio de MK1
-make clean-mojon-docker-git # Para borrar el reporitorio original y puedas setear el tuyo propio del proyecto
+make init # Esto te creará una carpeta src con el juego ejemplo del repositorio de MK1 y borrará el repositorio original y puedas setear el tuyo propio del proyecto
 make build
 ```
 Ya solo tendrás que abrir el juego .tap de la carpeta src/dev/
