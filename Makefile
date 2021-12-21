@@ -39,6 +39,7 @@ clean-mojon-docker-git: # Clean original repository
 init:  ## Clone MK1 repository and Clean original repository
 	$(MAKE) clone-mk1
 	$(MAKE) clean-mojon-docker-git
+	$(MAKE) create-ponedor-links
 
 build: ## Build game
 	$(MAKE) convert-map
@@ -95,3 +96,16 @@ refresh-map:
 	$(MAKE) convert-enemies
 	$(MAKE) compile
 	$(MAKE) build-tap
+
+create-ponedor-links:
+	ln -s ../utils/ponedor.exe src/enems/ponedor.exe
+	ln -s ../utils/zlib1.dll src/enems/zlib1.dll
+
+ponedor:
+	wine src/enems/ponedor.exe src/enems/enems.ene
+
+mappy:
+	wine utils/Mappy-mojono/Mappy/mapwin.exe src/map/mapa.fmp
+
+game:
+	fuse src/dev/${GAME}.tap
