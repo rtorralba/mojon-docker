@@ -77,6 +77,27 @@ importing-enemies: ## Importing GFX
 	${WINE} ${UTILS_DIR}apultra.exe ${GFX_DIR}marco.scr /src/bin/marco.bin
 	${WINE} ${UTILS_DIR}apultra.exe ${GFX_DIR}ending.scr /src/bin/ending.bin
 
+convert-music:
+	${WINE} ${UTILS_DIR}asm2z88dk.exe /src/mus/48k.asm /src/dev/sound/music.h
+	sed -i '/org 60000/d' /src/dev/sound/music.h
+
+BEEPER_H = src/dev/sound/beeper.h
+
+convert-effects:
+	${WINE} ${UTILS_DIR}asm2z88dk.exe /src/mus/efectos.asm /${BEEPER_H}
+	sed -i '/org 60000/d' ${BEEPER_H}
+	echo 'void beep_fx (unsigned char n) {' >> ${BEEPER_H}
+	echo 'asm_int = n;' >> ${BEEPER_H}
+	echo '#asm' >> ${BEEPER_H}
+	echo '	push ix' >> ${BEEPER_H}
+	echo '	push iy' >> ${BEEPER_H}
+	echo '	ld a, (_asm_int)' >> ${BEEPER_H}
+	echo '	call sound_play' >> ${BEEPER_H}
+	echo '	pop ix' >> ${BEEPER_H}
+	echo '	pop iy' >> ${BEEPER_H}
+	echo '#endasm' >> ${BEEPER_H}
+	echo '}' >> ${BEEPER_H}
+
 compile: # Compiling game
 	docker run --user ${UID} -v ${PWD}/src:/src --workdir /src/dev -it rtorralba/z88dk-mojon zcc +zx -vn mk1.c -O3 -crt0=crt.asm -o ${GAME}.bin -lsplib2_mk2.lib -zorg=24000
 
