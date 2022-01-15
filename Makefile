@@ -118,6 +118,10 @@ refresh-map:
 	$(MAKE) compile
 	$(MAKE) build-tap
 
+create-ponedor-links:
+	ln -s ../utils/ponedor.exe src/enems/ponedor.exe
+	ln -s ../utils/zlib1.dll src/enems/zlib1.dll
+
 ponedor:
 	wine src/enems/ponedor.exe src/enems/enems.ene
 
