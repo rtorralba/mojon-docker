@@ -118,15 +118,11 @@ refresh-map:
 	$(MAKE) compile
 	$(MAKE) build-tap
 
-create-ponedor-links:
-	ln -s ../utils/ponedor.exe src/enems/ponedor.exe
-	ln -s ../utils/zlib1.dll src/enems/zlib1.dll
-
 ponedor:
 	wine src/enems/ponedor.exe src/enems/enems.ene
 
 mappy:
-	wine utils/Mappy-mojono/Mappy/mapwin.exe src/map/mapa.fmp
+	wine utils/Mappy-mojono/Mappy/mapwin.exe
 
 game:
 	fuse src/dev/${GAME}.tap
