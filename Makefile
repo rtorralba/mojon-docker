@@ -77,13 +77,13 @@ importing-enemies: ## Importing GFX
 	${WINE} ${UTILS_DIR}apultra.exe ${GFX_DIR}marco.scr /src/bin/marco.bin
 	${WINE} ${UTILS_DIR}apultra.exe ${GFX_DIR}ending.scr /src/bin/ending.bin
 
-convert-music:
+convert-music: ## Covert music
 	${WINE} ${UTILS_DIR}asm2z88dk.exe /src/mus/48k.asm /src/dev/sound/music.h
 	sed -i '/org 60000/d' /src/dev/sound/music.h
 
 BEEPER_H = src/dev/sound/beeper.h
 
-convert-effects:
+convert-effects: ## Convert effects
 	${WINE} ${UTILS_DIR}asm2z88dk.exe /src/mus/efectos.asm /${BEEPER_H}
 	sed -i '/org 60000/d' ${BEEPER_H}
 	echo 'void beep_fx (unsigned char n) {' >> ${BEEPER_H}
@@ -98,21 +98,21 @@ convert-effects:
 	echo '#endasm' >> ${BEEPER_H}
 	echo '}' >> ${BEEPER_H}
 
-compile: # Compiling game
+compile: ## Compiling game
 	docker run --user ${UID} -v ${PWD}/src:/src --workdir /src/dev -it rtorralba/z88dk-mojon zcc +zx -vn mk1.c -O3 -crt0=crt.asm -o ${GAME}.bin -lsplib2_mk2.lib -zorg=24000
 
-build-tap: # Build TAP
+build-tap: ## Build TAP
 	${WINE} ${UTILS_DIR}bas2tap -a10 -sLOADER /src/dev/loader/loader.bas /src/dev/loader.tap
 	${WINE} ${UTILS_DIR}bin2tap -o /src/dev/screen.tap -a 16384 /src/loading.bin 
 	${WINE} ${UTILS_DIR}bin2tap -o /src/dev/main.tap -a 24000 /src/dev/${GAME}.bin 
 	cat src/dev/loader.tap src/dev/screen.tap src/dev/main.tap > src/dev/${GAME}.tap
 
-clean:
+clean: ## Clean generated files
 	rm -f src/dev/loader.tap src/dev/screen.tap src/dev/main.tap
 	rm -f src/*.bin
 	rm -f src/gfx/*.scr
 
-refresh-map:
+refresh-map: ## Covert only map and enemies
 	$(MAKE) convert-map
 	$(MAKE) convert-enemies
 	$(MAKE) compile
@@ -122,11 +122,11 @@ create-ponedor-links:
 	ln -s ../utils/ponedor.exe src/enems/ponedor.exe
 	ln -s ../utils/zlib1.dll src/enems/zlib1.dll
 
-ponedor:
+ponedor: ## Open ponedor
 	wine src/enems/ponedor.exe src/enems/enems.ene
 
-mappy:
+mappy: ## Open mappy
 	wine utils/Mappy-mojono/Mappy/mapwin.exe
 
-game:
+game: ## Execute game on fuse
 	fuse src/dev/${GAME}.tap
